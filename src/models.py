@@ -7,26 +7,49 @@ from eralchemy2 import render_er
 
 Base = declarative_base()
 
-class Person(Base):
-    __tablename__ = 'person'
+
+class Ciudad(Base):
+    __tablename__ = 'ciudad'
     # Here we define columns for the table person
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
+    nombre = Column(String(250), nullable=False)
+    bandera = Column(String(250), nullable=False)
+    himno = Column(String(250), nullable=False)
 
-class Address(Base):
-    __tablename__ = 'address'
-    # Here we define columns for the table address.
+class Campeonato(Base):
+    __tablename__ = 'campeonato'
+    # Here we define columns for the table person
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    street_name = Column(String(250))
-    street_number = Column(String(250))
-    post_code = Column(String(250), nullable=False)
-    person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship(Person)
+    nombre = Column(String(250), nullable=False)
+    premio = Column(Integer, nullable=False)
+    ciudad_id = Column(Integer, ForeignKey('ciudad.id'))
+    ciudad = relationship(Ciudad)
 
-    def to_dict(self):
-        return {}
 
+class Piloto(Base):
+    __tablename__ = 'piloto'
+    # Here we define columns for the table person
+    # Notice that each column is also a normal Python instance attribute.
+    id = Column(Integer, primary_key=True)
+    nombre = Column(String(250), nullable=False)
+    categoria = Column(String(250), nullable=False)
+
+class CampeonatoPiloto(Base):
+    __tablename__ = 'campeonato_piloto'
+    # Here we define columns for the table person
+    # Notice that each column is also a normal Python instance attribute.
+    id = Column(Integer, primary_key=True)
+    campeonato_id = Column(Integer, ForeignKey('campeonato.id'))
+    campeonato = relationship(Campeonato)
+    piloto_id = Column(Integer, ForeignKey('piloto.id'))
+    piloto = relationship(Piloto)
+
+
+
+    	
+
+ 		
 ## Draw from SQLAlchemy base
 render_er(Base, 'diagram.png')
